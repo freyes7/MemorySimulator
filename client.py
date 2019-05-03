@@ -12,19 +12,17 @@ sock.connect(server_address)
 try:
     
     # Send data
-    message = 'This is the message.  It will be repeated.'
-    print >>sys.stderr, 'sending "%s"' % message
+    message = 'wed'
     sock.sendall(message)
 
-    # Look for the response
-    amount_received = 0
-    amount_expected = len(message)
-    
-    while amount_received < amount_expected:
-        data = sock.recv(1000)
-        amount_received += len(data)
-        print >>sys.stderr, 'received "%s"' % data
+    data = sock.recv(4096)
+    print >>sys.stderr, '"%s"' % data
 
+    message = 'E'
+    sock.sendall(message)
+
+    data = sock.recv(4096)
+    print >>sys.stderr, '"%s"' % data
 finally:
     print >>sys.stderr, 'closing socket'
     sock.close()
