@@ -1,5 +1,6 @@
 import socket
 import sys
+from tabulate import tabulate
 
 #Controlers
 finished = False
@@ -116,5 +117,6 @@ while not finished:
             else:
                 break
     finally:
+        print tabulate([['Alice', 24], ['Bob', 19]], headers=['Name', 'Age'])
         # Clean up the connection
         connection.close()
