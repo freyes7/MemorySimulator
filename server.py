@@ -1,5 +1,6 @@
 import socket
 import sys
+from tabulate import tabulate
 
 #Controlers
 finished = False
@@ -10,6 +11,7 @@ realMemorySize = 0
 swapMemorySize = 0
 pageSize = 0
 politica = 'FIFO'
+memory = 0
 
 #Functions
 def setRealMemorySize(data):
