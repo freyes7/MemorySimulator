@@ -1,7 +1,8 @@
 import socket
 import sys
 from MessageProcessor import MessageProcessor
-from tabulate import tabulate
+from MemoryFIFO import MemoryFIFO
+from MemoryLIFO import MemoryLIFO
 
 #Controler
 state = 0
@@ -16,6 +17,11 @@ memory = 0
 
 def processMessage(data):
     global state
+    global realMemorySize
+    global swapMemorySize
+    global pageSize
+    global politic
+    global memory
     if state == 0:
         realMemorySize,change,message =MessageProcessor.setRealMemorySize(data)
         state = state + change
@@ -31,9 +37,20 @@ def processMessage(data):
     elif state == 3:
         politic,change,message =MessageProcessor.setPolitic(data)
         state = state + change
+        if state == 4:
+            if politic == 'FIFO':
+                memory = MemoryFIFO(realMemorySize,swapMemorySize,pageSize)
+            else:
+                memory = MemoryLIFO(realMemorySize,swapMemorySize,pageSize)
         return message
     elif state == 4:
         change,values,message =MessageProcessor.instruction(data)
+        if message == 'A':
+            message = memory.accessAddress(values[0],values[1],values[2])
+        elif message == 'P':
+            message = memory.loadProcess(values[1],values[0])
+        elif message == 'L':
+            message = memory.freeProcess(values[0])
         state = state + change
         return message
     return '\nError'

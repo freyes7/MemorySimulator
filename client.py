@@ -24,7 +24,7 @@ try:
     data = sock.recv(4096)
     print >>sys.stderr, '%s' % data
 
-    message = "RealMemory 3400000000000000000000000000000"
+    message = "RealMemory 34"
     sock.sendall(message)
 
     data = sock.recv(4096)
@@ -49,6 +49,12 @@ try:
     print >>sys.stderr, '%s' % data
 
     message = "PoliticaMemory LIFO"
+    sock.sendall(message)
+
+    data = sock.recv(4096)
+    print >>sys.stderr, '%s' % data
+
+    message = "A hola 1 35"
     sock.sendall(message)
 
     data = sock.recv(4096)

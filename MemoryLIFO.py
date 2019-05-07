@@ -6,11 +6,11 @@ class MemoryLIFO(Memory):
                 self.pages = self.pageSize
 
         def loadProcess(self, process, processSize):
-                pass
+                return ''
 
         def accessAddress(self, address, process, modifyBit):
-                pass
+                return ''
 
         def freeProcess(self, process):
-                pass
+                return ''
 

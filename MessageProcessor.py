@@ -55,7 +55,7 @@ class MessageProcessor:
 	@staticmethod
 	def instruction(data):
 	    command = data.split()
-	    values = 0
+	    values = []
 	    if len(command)==0:
 	    	return 0,values,'\nInsuficientes parametros'
 	    if command[0]=='F':
@@ -66,33 +66,36 @@ class MessageProcessor:
 	    	if len(command)<3:
 	    		return 0,'\nInsuficientes parametros'
 	    	try:
-	        	values[0] = int(command[1])
+	        	values.append(int(command[1]))
 	        except ValueError:
 		        return 0,values,'\nLos parametros de este comando deben ser enteros'
 	    	try:
-	        	values[1] = int(command[2])
+	        	values.append(int(command[2]))
 	        except ValueError:
 		        return 0,values,'\nLos parametros de este comando deben ser enteros'
+	    	return 0,values,'P'
 	    if command[0]=='A':
 	    	if len(command)<4:
 	    		return 0,'\nInsuficientes parametros'
 	    	try:
-		        values[0] = int(command[1])
+		        values.append(int(command[1]))
 	        except ValueError:
 		        return 0,values,'\nLos parametros de este comando deben ser enteros'
 	    	try:
-	        	values[1] = int(command[2])
+	        	values.append(int(command[2]))
 	        except ValueError:
 		        return 0,values,'\nLos parametros de este comando deben ser enteros'
 	    	try:
-	        	values[2] = int(command[3])
+	        	values.append(int(command[3]))
 	        except ValueError:
 		        return 0,values,'\nLos parametros de este comando deben ser enteros'
+	    	return 0,values,'A'
 	    if command[0]=='L':
 	    	if len(command)<2:
 	    		return 0,'\nInsuficientes parametros'
 	    	try:
-	        	values[0] = int(command[1])
+	        	values.append(int(command[1]))
 	        except ValueError:
 		        return 0,values,'\nLos parametros de este comando deben ser enteros'
+	    	return 0,values,'L'
 	    return 0,values,'\nEl comando no es el esperado, intenta de nuevo.'
