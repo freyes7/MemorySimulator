@@ -55,6 +55,44 @@ class MessageProcessor:
 	@staticmethod
 	def instruction(data):
 	    command = data.split()
-	    if len(command)>=1 and command[0]=='F':
-	        return -1,'\nElige la nueva politica de remplazo o ingresa E para terminar'
-	    return 0,'\nError'
+	    values = 0
+	    if len(command)==0:
+	    	return 0,values,'\nInsuficientes parametros'
+	    if command[0]=='F':
+	        return -1,values,'\nElige la nueva politica de remplazo o ingresa E para terminar'
+	    if command[0]=='C':
+	    	return 0,values,'\nComentario Recibido'
+	    if command[0]=='P':
+	    	if len(command)<3:
+	    		return 0,'\nInsuficientes parametros'
+	    	try:
+	        	values[0] = int(command[1])
+	        except ValueError:
+		        return 0,values,'\nLos parametros de este comando deben ser enteros'
+	    	try:
+	        	values[1] = int(command[2])
+	        except ValueError:
+		        return 0,values,'\nLos parametros de este comando deben ser enteros'
+	    if command[0]=='A':
+	    	if len(command)<4:
+	    		return 0,'\nInsuficientes parametros'
+	    	try:
+		        values[0] = int(command[1])
+	        except ValueError:
+		        return 0,values,'\nLos parametros de este comando deben ser enteros'
+	    	try:
+	        	values[1] = int(command[2])
+	        except ValueError:
+		        return 0,values,'\nLos parametros de este comando deben ser enteros'
+	    	try:
+	        	values[2] = int(command[3])
+	        except ValueError:
+		        return 0,values,'\nLos parametros de este comando deben ser enteros'
+	    if command[0]=='L':
+	    	if len(command)<2:
+	    		return 0,'\nInsuficientes parametros'
+	    	try:
+	        	values[0] = int(command[1])
+	        except ValueError:
+		        return 0,values,'\nLos parametros de este comando deben ser enteros'
+	    return 0,values,'\nEl comando no es el esperado, intenta de nuevo.'

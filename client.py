@@ -24,7 +24,7 @@ try:
     data = sock.recv(4096)
     print >>sys.stderr, '%s' % data
 
-    message = "RealMemory 34"
+    message = "RealMemory 3400000000000000000000000000000"
     sock.sendall(message)
 
     data = sock.recv(4096)

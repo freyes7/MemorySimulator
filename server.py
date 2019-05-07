@@ -33,7 +33,7 @@ def processMessage(data):
         state = state + change
         return message
     elif state == 4:
-        change,message =MessageProcessor.instruction(data)
+        change,values,message =MessageProcessor.instruction(data)
         state = state + change
         return message
     return '\nError'
