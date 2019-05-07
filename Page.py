@@ -1,4 +1,4 @@
-class Marco:
+class Page:
 
     def __init__(self, inicio, longitud, proceso):
         self.inicio = inicio
