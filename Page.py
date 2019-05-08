@@ -1,6 +1,6 @@
 class Page:
 
-    def __init__(self, inicio, longitud, proceso):
-        self.inicio = inicio
-        self.longitud = longitud
-        self.proceso = proceso
+    OcupyBit = 0
+    def __init__(self, process, linkedPage):
+        self.process = process
+        self.linkedPage = linkedPage
