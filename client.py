@@ -60,6 +60,12 @@ try:
     data = sock.recv(4096)
     print >>sys.stderr, '%s' % data
 
+    message = "L 43"
+    sock.sendall(message)
+
+    data = sock.recv(4096)
+    print >>sys.stderr, '%s' % data
+
     message = "F"
     sock.sendall(message)
 

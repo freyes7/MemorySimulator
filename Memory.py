@@ -4,6 +4,7 @@ class Memory:
 
 
 	processesInMemory = {}
+	freedProcesses = {}
 	def __init__(self, realMemorySize, swapMemorySize, pageSize):
 		self.realMemorySize = realMemorySize
 		self.swapMemorySize = swapMemorySize
@@ -22,6 +23,18 @@ class Memory:
 		pass
 
 	def freeProcess(self, process):
-		if str(process) in processesInMemory:
-			processToDelete = processesInMemory[str(process)]
-			for process in processToDelete:
+
+		if process in self.processesInMemory:
+			processToDelete = self.processesInMemory[process]
+			framesToDelete = processToDelete.getFrames()
+			for frame in framesToDelete:
+				index = frame.getLinkedPage
+				if frame.getTypeMemory == 'SwapMemory':
+					self.swapMemory[index].setOcupyBit(0)
+				elif frame.getTypeMemory == 'RealMemory':
+					self.realMemory[index].setOcupyBit(0)
+			self.freedProcesses.add(process)
+			del self.processesInMemory[process]
+			return '\nProceso eliminado con exito'
+
+		return '\nNo existe dicho proceso en memoria'

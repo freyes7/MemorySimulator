@@ -6,7 +6,3 @@ class MemoryFIFO(Memory):
 
         def accessAddress(self, address, process, modifyBit):
                 return ''
-
-        def freeProcess(self, process):
-                return ''
-
