@@ -3,6 +3,3 @@ class MemoryLIFO(Memory):
 
         def loadProcess(self, process, processSize):
                 return ''
-
-        def accessAddress(self, address, process, modifyBit):
-                return ''

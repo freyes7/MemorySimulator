@@ -3,9 +3,9 @@ from Page import Page
 class Memory:
 
 
-	processesInMemory = {}
-	freedProcesses = {}
 	def __init__(self, realMemorySize, swapMemorySize, pageSize):
+		self.processesInMemory = {}
+		self.freedProcesses = {}
 		self.realMemorySize = realMemorySize
 		self.swapMemorySize = swapMemorySize
 		self.pageSize = pageSize
