@@ -1,4 +1,7 @@
+from Page import Page
+
 class Memory:
+
 
 	def __init__(self, realMemorySize, swapMemorySize, pageSize):
 		self.realMemorySize = realMemorySize
