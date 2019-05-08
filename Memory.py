@@ -11,9 +11,9 @@ class Memory:
 		self.realMemory = []
 		self.swapMemory = []
 		for i in range(realMemorySize*1024/pageSize):
-			self.realMemory.append(Page(0,0))
+			self.realMemory.append(Page('RealMemory',0,0))
 		for i in range(swapMemorySize*1024/pageSize):
-			self.swapMemory.append(Page(0,0))
+			self.swapMemory.append(Page('SwapMemory',0,0))
 
 	def loadProcess(self, process, processSize):
 		pass
@@ -22,4 +22,6 @@ class Memory:
 		pass
 
 	def freeProcess(self, process):
-		pass
+		if str(process) in processesInMemory:
+			processToDelete = processesInMemory[str(process)]
+			for process in processToDelete:
