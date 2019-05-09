@@ -31,7 +31,7 @@ class MessageProcessor:
 	    return swapMemorySize,1,'\nEl tamanio de la memoria se cambio con exito'
 
 	@staticmethod
-	def setPageSize(data):
+	def setPageSize(realMemorySize,data):
 	    command = data.split()
 	    if len(command)<2 : 
 	        return 0,0,'\nInsuficientes parametros'
@@ -42,7 +42,9 @@ class MessageProcessor:
 	    except ValueError:
 	        return 0,0,'\nIngresa un entero para el tamanio de las paginas'
 		if pageSize <= 0:
-			return 0,0,'Ingresa un numero positivo'
+			return 0,0,'\nIngresa un numero positivo'
+		if realMemorySize*1024<pageSize:
+			return 0,0,'\nEl tamanio de pagina debe ser menor o igual al tamanio de la memoria real'
 	    return pageSize,1,'\nEl tamanio de las paginas se cambio con exito'
 
 	@staticmethod
@@ -73,10 +75,10 @@ class MessageProcessor:
 	    		return 0,values,'\nInsuficientes parametros'
 	    	try:
 	        	values.append(int(command[1]))
-				if int(command[1]<=0) < 0:
-					return 0,values,'Ingresa un numero positivo'
 	        except ValueError:
 		        return 0,values,'\nLos parametros de este comando deben ser enteros'
+			if values[0] < 0:
+				return 0,values,'Ingresa un numero positivo'
 	    	try:
 	        	values.append(int(command[2]))
 	        except ValueError:
@@ -87,10 +89,10 @@ class MessageProcessor:
 	    		return 0,'\nInsuficientes parametros'
 	    	try:
 		        values.append(int(command[1]))
-				if int(command[1]<=0) < 0:
-					return 0,values,'Ingresa un numero positivo'
 	        except ValueError:
 		        return 0,values,'\nLos parametros de este comando deben ser enteros'
+			if values[0] < 0 :
+				return 0,values,'Ingresa un numero positivo o 0'
 	    	try:
 	        	values.append(int(command[2]))
 	        except ValueError:

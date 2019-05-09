@@ -30,7 +30,7 @@ def processMessage(data):
         state = state + change
         return message
     elif state == 2:
-        pageSize,change,message =MessageProcessor.setPageSize(data)
+        pageSize,change,message =MessageProcessor.setPageSize(realMemorySize, data)
         state = state + change
         return message
     elif state == 3:
