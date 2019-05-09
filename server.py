@@ -1,8 +1,7 @@
 import socket
 import sys
 from MessageProcessor import MessageProcessor
-from MemoryFIFO import MemoryFIFO
-from MemoryLIFO import MemoryLIFO
+from Memory import Memory
 
 #Controler
 state = 0
@@ -27,7 +26,7 @@ def processMessage(data):
         state = state + change
         return message
     elif state == 1:
-        realMemorySize,change,message =MessageProcessor.setSwapMemorySize(data)
+        swapMemorySize,change,message =MessageProcessor.setSwapMemorySize(data)
         state = state + change
         return message
     elif state == 2:
@@ -38,10 +37,7 @@ def processMessage(data):
         politic,change,message =MessageProcessor.setPolitic(data)
         state = state + change
         if state == 4:
-            if politic == 'FIFO':
-                memory = MemoryFIFO(realMemorySize,swapMemorySize,pageSize)
-            else:
-                memory = MemoryLIFO(realMemorySize,swapMemorySize,pageSize)
+            memory = Memory(realMemorySize,swapMemorySize,pageSize,politic)
         return message
     elif state == 4:
         change,values,message =MessageProcessor.instruction(data)

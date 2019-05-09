@@ -3,20 +3,21 @@ import time
 
 class Process:
 
-    def __init__(self, size, pageSize):
+    def __init__(self, id, size, pageSize):
 	self.frames = []
 	self.commandCount = 0
 	self.initialTime = time.time()
         self.pageFaults = 0
         self.swapIn = 0
         self.swapOut = 0
+        self.id = id
         self.size = size
         self.pageSize = pageSize
         self.numberOfFrames = size/pageSize
         if self.numberOfFrames*pageSize<size:
-            self.numberOfFrames = numberOfFrames + 1
-        for i in range(numberOfFrames):
-            self.frames.append(Page('Undefined',0,0))
+            self.numberOfFrames = self.numberOfFrames + 1
+        for i in range(self.numberOfFrames):
+            self.frames.append(Page('Undefined',id,0))
 
     def getPageFaults(self):
         return self.pageFaults
@@ -32,6 +33,12 @@ class Process:
 
     def getFrame(self, index):
         return self.frames[index]
+
+    def getNumberOfFrames(self):
+        return self.numberOfFrames
+
+    def getId(self):
+        return self.id
 
     def getTurnaroundTime(self):
 	return time.time()-self.initialTime
@@ -50,3 +57,9 @@ class Process:
 
     def getPerformance(self):
 	return 1 - self.pageFaults/self.commandCount
+
+    def setLinkedPage(self, index, linkedPage):
+        self.frames[index].setLinkedPage(linkedPage)
+
+    def setTypeMemory(self, index, typeMemory):
+        self.frames[index].setTypeMemory(typeMemory)
