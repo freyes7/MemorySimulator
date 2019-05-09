@@ -47,6 +47,10 @@ def processMessage(data):
             message = memory.loadProcess(values[1],values[0])
         elif message == 'L':
             message = memory.freeProcess(values[0])
+        elif message == 'C':
+            message = memory.saveComment(data)
+        elif message == 'F':
+            message = memory.endSimulation()
         state = state + change
         return message
     return '\nError'

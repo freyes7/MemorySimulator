@@ -164,3 +164,13 @@ class Memory:
 			return '\nProceso eliminado con exito'
 
 		return '\nNo existe dicho proceso en memoria'
+	
+	def saveComment(self,data):
+		return '\nComentario Guardado'
+
+	def endSimulation(self):
+		for key in self.processesInMemory:
+			self.freedProcesses.add(key)
+		for key in self.processesInQueue:
+			self.freedProcesses.add(key)
+		return '\nHasta Luego'

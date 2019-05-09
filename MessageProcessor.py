@@ -67,9 +67,9 @@ class MessageProcessor:
 	    if len(command)==0:
 	    	return 0,values,'\nInsuficientes parametros'
 	    if command[0]=='F':
-	        return -1,values,'\nElige la nueva politica de remplazo o ingresa E para terminar'
+	        return -1,values,'F'
 	    if command[0]=='C':
-	    	return 0,values,'\nComentario Recibido'
+	    	return 0,values,'C'
 	    if command[0]=='P':
 	    	if len(command)<3:
 	    		return 0,values,'\nInsuficientes parametros'
