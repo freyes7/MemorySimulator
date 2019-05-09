@@ -22,6 +22,9 @@ class Process:
     def getPageFaults(self):
         return self.pageFaults
 
+    def getPageSize(self):
+        return self.pageSize
+        
     def getSwapIn(self):
         return self.swapIn
 
@@ -33,6 +36,9 @@ class Process:
 
     def getFrame(self, index):
         return self.frames[index]
+
+    def getSize(self):
+        return self.size
 
     def getNumberOfFrames(self):
         return self.numberOfFrames

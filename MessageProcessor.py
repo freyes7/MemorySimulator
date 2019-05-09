@@ -77,7 +77,7 @@ class MessageProcessor:
 	        	values.append(int(command[1]))
 	        except ValueError:
 		        return 0,values,'\nLos parametros de este comando deben ser enteros'
-			if values[0] < 0:
+			if values[0] <= 0:
 				return 0,values,'Ingresa un numero positivo'
 	    	try:
 	        	values.append(int(command[2]))

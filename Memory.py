@@ -35,7 +35,7 @@ class Memory:
 		print("Swap")
 		for page in self.swapMemory:
 			print(str(page.getOcupyNumber())+' '+str(page.getProcess())+' '+str(page.getLinkedPage()))
-	'''
+		'''
 
 	def toSwap(self,index):
 		newIndex = 0
@@ -114,8 +114,24 @@ class Memory:
 		self.safeLoading(newProcess.getId())
 		return '\nProceso cargado con exito'
 
-	def accessAddress(self, address, process, modifyBit):
-		return ' '
+	def accessAddress(self, address, processNumber, modifyBit):
+		if processNumber in self.processesInMemory:
+			process = self.processesInMemory[processNumber]
+			if address >= process.getSize():
+				return '\Page Fault'
+			frame = address / process.getPageSize()
+			displacement = address % process.getPageSize()
+			page = process.getFrame(frame)
+			if page.getTypeMemory() == 'SwapMemory':
+				self.swapMemory[page.getLinkedPage()].setOcupyNumber(0)
+				self.freeSwapMemoryFrames = self.freeSwapMemoryFrames + 1
+				if self.freeRealMemoryFrames == 0:
+					self.releaseRealMemoryFrame()
+				self.loadRealMemory(processNumber,frame,frame)
+			realMemory = self.processesInMemory[processNumber].getFrame(frame).getLinkedPage() * self.pageSize + displacement
+			#self.pri()
+			return '\nReal Memory ' + str(realMemory)
+		return '\nNo existe dicho proceso en memoria'
 
 	def freeProcess(self, process):
 
