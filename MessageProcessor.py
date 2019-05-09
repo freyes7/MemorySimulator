@@ -11,6 +11,8 @@ class MessageProcessor:
 	        realMemorySize = int(command[1])
 	    except ValueError:
 	        return 0,0,'\nIngresa un entero para el tamanio de la memoria'
+		if realMemorySize <= 0:
+			return 0,0,'Ingresa un numero positivo'
 	    return realMemorySize,1,'\nEl tamanio de la memoria se cambio con exito'
 
 	@staticmethod
@@ -24,6 +26,8 @@ class MessageProcessor:
 	        swapMemorySize = int(command[1])
 	    except ValueError:
 	        return 0,0,'\nIngresa un entero para el tamanio de la memoria'
+		if swapMemorySize <= 0:
+			return 0,0,'Ingresa un numero positivo'
 	    return swapMemorySize,1,'\nEl tamanio de la memoria se cambio con exito'
 
 	@staticmethod
@@ -37,6 +41,8 @@ class MessageProcessor:
 	        pageSize = int(command[1])
 	    except ValueError:
 	        return 0,0,'\nIngresa un entero para el tamanio de las paginas'
+		if pageSize <= 0:
+			return 0,0,'Ingresa un numero positivo'
 	    return pageSize,1,'\nEl tamanio de las paginas se cambio con exito'
 
 	@staticmethod
@@ -64,9 +70,11 @@ class MessageProcessor:
 	    	return 0,values,'\nComentario Recibido'
 	    if command[0]=='P':
 	    	if len(command)<3:
-	    		return 0,'\nInsuficientes parametros'
+	    		return 0,values,'\nInsuficientes parametros'
 	    	try:
 	        	values.append(int(command[1]))
+				if int(command[1]<=0) < 0:
+					return 0,values,'Ingresa un numero positivo'
 	        except ValueError:
 		        return 0,values,'\nLos parametros de este comando deben ser enteros'
 	    	try:
@@ -79,6 +87,8 @@ class MessageProcessor:
 	    		return 0,'\nInsuficientes parametros'
 	    	try:
 		        values.append(int(command[1]))
+				if int(command[1]<=0) < 0:
+					return 0,values,'Ingresa un numero positivo'
 	        except ValueError:
 		        return 0,values,'\nLos parametros de este comando deben ser enteros'
 	    	try:
