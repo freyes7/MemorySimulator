@@ -17,10 +17,13 @@ politica = sys.argv[1]; seed = sys.argv[2] #política de memoria y semilla del g
 # mensajes que el cliente envía al servidor. El primer elemento de cada tuple indica el tiempo en el cual se manda el
 # mensaje, a partir del tiempo 0. Pasando los mensajes de inicialización, ese tiempo puede ser modificado de manera aleatoria.
 
-messages = [(0.0,'RealMemory 2'),(0.1,'SwapMemory 4'),(0.2,'PageSize 16'),(0.3,'PolíticaMemory RND'),(1,'P 2048 1'), \
+messages = [(0.0,'RealMemory 2'),(0.1,'SwapMemory 4'),(0.2,'PageSize 16'),(0.3,'PolíticaMemory FIFO'),(1,'P 2048 1'), \
 			(2,'A 1 1 0'),(3,'A 33 1 1'),(4,'P 32 2'),(5,'A 15 2 0'),(6,'A 82 1 0'), \
-			(7,'L 2'),(8,'P 32 3'), \
-			(9,'L 1'), (10,'F'), (11, 'E')]
+			(7,'L 2'),(8,'P 32 3'), (9,'A 15 1 1'), \
+			(10,'L 1'), (11,'F'), (0.0,'RealMemory 2'),(0.1,'SwapMemory 4'),(0.2,'PageSize 16'),(0.3,'PolíticaMemory LIFO'),(1,'P 2048 1'), \
+			(2,'A 1 1 0'),(3,'A 33 1 1'),(4,'P 32 2'),(5,'A 15 2 0'),(6,'A 82 1 0'), \
+			(7,'L 2'),(8,'P 32 3'), (9,'A 15 1 1'), \
+			(10,'L 1'), (11,'F'), (12, 'E')]
 			
 # ajusta la política de acuerdo al primer argumento
 messages[3] = (0.3, 'PoliticaMemory ' + politica)

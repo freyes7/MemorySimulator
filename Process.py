@@ -4,9 +4,9 @@ import time
 class Process:
 
     def __init__(self, id, size, pageSize):
-	self.frames = []
-	self.commandCount = 0
-	self.initialTime = time.time()
+    	self.frames = []
+    	self.commandCount = 0
+    	self.initialTime = time.time()
         self.pageFaults = 0
         self.swapIn = 0
         self.swapOut = 0
@@ -47,22 +47,22 @@ class Process:
         return self.id
 
     def getTurnaroundTime(self):
-	return time.time()-self.initialTime
+        return time.time()-self.initialTime
 
     def addFault(self):
-	self.pageFaults = self.pageFaults + 1
+        self.pageFaults = self.pageFaults + 1
 
     def addSwapIn(self):
-	self.swapIn = self.swapIn + 1
+        self.swapIn = self.swapIn + 1
 
     def addSwapOut(self):
-	self.swapOut = self.swapOut + 1
+        self.swapOut = self.swapOut + 1
 
     def addCommand(self):
-	self.commandCount = self.commandCount + 1
+        self.commandCount = self.commandCount + 1
 
     def getPerformance(self):
-	return 1 - self.pageFaults/self.commandCount
+        return 1 - self.pageFaults/self.commandCount
 
     def setLinkedPage(self, index, linkedPage):
         self.frames[index].setLinkedPage(linkedPage)

@@ -1,6 +1,7 @@
 from Page import Page
 from Process import Process
 from collections import deque
+from Output import Output
 
 class Memory:
 
@@ -27,7 +28,7 @@ class Memory:
 		for i in range(self.swapMemoryFrames):
 			self.swapMemory.append(Page('SwapMemory',0,0))
 
-	'''
+	
 	def pri(self):
 		print("Real")
 		for page in self.realMemory:
@@ -35,7 +36,7 @@ class Memory:
 		print("Swap")
 		for page in self.swapMemory:
 			print(str(page.getOcupyNumber())+' '+str(page.getProcess())+' '+str(page.getLinkedPage()))
-		'''
+		
 
 	def toSwap(self,index):
 		newIndex = 0
@@ -49,6 +50,8 @@ class Memory:
 		self.realMemory[index].setOcupyNumber(0)
 		self.freeRealMemoryFrames = self.freeRealMemoryFrames + 1
 		self.freeSwapMemoryFrames = self.freeSwapMemoryFrames - 1
+
+		self.processesInMemory[self.realMemory[index].getProcess()].addSwapIn()
 
 	def releaseRealMemoryFrame(self):
 		index = 0
@@ -116,13 +119,16 @@ class Memory:
 
 	def accessAddress(self, address, processNumber, modifyBit):
 		if processNumber in self.processesInMemory:
+			self.processesInMemory[processNumber].addCommand()
 			process = self.processesInMemory[processNumber]
 			if address >= process.getSize():
-				return '\Page Fault'
+				return '\nPage Fault'
 			frame = address / process.getPageSize()
 			displacement = address % process.getPageSize()
 			page = process.getFrame(frame)
 			if page.getTypeMemory() == 'SwapMemory':
+				self.processesInMemory[processNumber].addFault()
+				self.processesInMemory[processNumber].addSwapOut()
 				self.swapMemory[page.getLinkedPage()].setOcupyNumber(0)
 				self.freeSwapMemoryFrames = self.freeSwapMemoryFrames + 1
 				if self.freeRealMemoryFrames == 0:
@@ -130,7 +136,7 @@ class Memory:
 				self.loadRealMemory(processNumber,frame,frame)
 			realMemory = self.processesInMemory[processNumber].getFrame(frame).getLinkedPage() * self.pageSize + displacement
 			#self.pri()
-			return '\nReal Memory ' + str(realMemory)
+			return '\nReal Memory ' + str(realMemory), str(realMemory)
 		return '\nNo existe dicho proceso en memoria'
 
 	def freeProcess(self, process):
@@ -138,6 +144,7 @@ class Memory:
 		if process in self.processesInMemory:
 			processToDelete = self.processesInMemory[process]
 			framesToDelete = processToDelete.getFrames()
+			Output.addFaultRow(processToDelete)
 			for frame in framesToDelete:
 				index = frame.getLinkedPage()
 				if frame.getTypeMemory() == 'SwapMemory':
