@@ -201,8 +201,10 @@ class Output:
 	@staticmethod
 	def displayFaultsTable():
 		global faultTableRows
-		faultTableRows = sorted(faultTableRows, key=operator.itemgetter(0),reverse=False)
-		print tabulate([["proceso","turnaround","# page faults","swapins","swapouts","rendimiento"].faultTableRows],headers="firstrow",tablefmt="fancy_grid"),"\n"
+		faultTableRows = sorted(faultTableRows, key=operator.itemgetter(0),reverse=True)
+		faultTableRows.append(["proceso","turnaround","# page faults","swapins","swapouts","rendimiento"])
+
+		print tabulate(faultTableRows[::-1],headers="firstrow",tablefmt="fancy_grid"),"\n"
 
 	@staticmethod
 	def displayCommandsTableLast():

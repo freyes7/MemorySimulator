@@ -137,7 +137,7 @@ class Memory:
 			realMemory = self.processesInMemory[processNumber].getFrame(frame).getLinkedPage() * self.pageSize + displacement
 			#self.pri()
 			return '\nReal Memory ' + str(realMemory), str(realMemory)
-		return '\nNo existe dicho proceso en memoria'
+		return '\nNo existe dicho proceso en memoria', "-"
 
 	def freeProcess(self, process):
 
