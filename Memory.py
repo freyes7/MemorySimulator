@@ -177,6 +177,7 @@ class Memory:
 
 	def endSimulation(self):
 		for key in self.processesInMemory:
+			Output.addFaultRowNotEndedProcess(self.processesInMemory[key])
 			self.freedProcesses.add(key)
 		for key in self.processesInQueue:
 			self.freedProcesses.add(key)

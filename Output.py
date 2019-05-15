@@ -2,6 +2,8 @@ from tabulate import tabulate
 from Page import Page
 from Process import Process
 import copy
+import operator
+
 class Output:
 
 	global lastRealList
@@ -38,7 +40,19 @@ class Output:
 		pageFaults = process.getPageFaults()
 		swapins = process.getSwapIn()
 		swapouts = process.getSwapOut()
-		rendimiento = process.getPerformance()
+		rendimiento = str(process.getPerformance())
+		faultTableRows.append([pid, turnaround, pageFaults, swapins, swapouts, rendimiento])
+
+	@staticmethod
+	def addFaultRowNotEndedProcess(process):
+		global faultTableRows
+
+		pid = process.getId()
+		turnaround = "-"
+		pageFaults = process.getPageFaults()
+		swapins = process.getSwapIn()
+		swapouts = process.getSwapOut()
+		rendimiento = str(process.getPerformance())
 		faultTableRows.append([pid, turnaround, pageFaults, swapins, swapouts, rendimiento])
 
 	@staticmethod
@@ -187,9 +201,8 @@ class Output:
 	@staticmethod
 	def displayFaultsTable():
 		global faultTableRows
-		faultTableRows.append(["proceso","turnaround","# page faults","swapins","swapouts","rendimiento"])
-
-		print tabulate(faultTableRows[::-1],headers="firstrow",tablefmt="fancy_grid"),"\n"
+		faultTableRows = sorted(faultTableRows, key=operator.itemgetter(0),reverse=False)
+		print tabulate([["proceso","turnaround","# page faults","swapins","swapouts","rendimiento"].faultTableRows],headers="firstrow",tablefmt="fancy_grid"),"\n"
 
 	@staticmethod
 	def displayCommandsTableLast():

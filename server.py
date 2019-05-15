@@ -28,6 +28,7 @@ def processMessage(data):
     global initialTime
 
     if state == 0:
+        initialTime = time.time()
         realMemorySize,change,message =MessageProcessor.setRealMemorySize(data)
         state = state + change
         return message
@@ -44,33 +45,34 @@ def processMessage(data):
         state = state + change
         if state == 4:
             memory = Memory(realMemorySize,swapMemorySize,pageSize,politic)
-            initialTime = time.time()
             Output.resetTableRows()
+            actualTime = time.time()-initialTime
             Output.lastRealList = copy.copy(memory.realMemory)
             Output.lastSwapList = copy.copy(memory.swapMemory)
-            Output.addCommandRow("0", "", "", memory.realMemory, memory.swapMemory, memory.freedProcesses)
+            Output.addCommandRow(actualTime, "", "", memory.realMemory, memory.swapMemory, memory.freedProcesses)
         return message
     elif state == 4:
         change,values,message =MessageProcessor.instruction(data)
+        actualTime = time.time()-initialTime
         if message == 'A':
             message, realMemory = memory.accessAddress(values[0],values[1],values[2])
-            Output.addCommandRow(time.time()-initialTime, data, realMemory, memory.realMemory, memory.swapMemory, memory.freedProcesses)
+            Output.addCommandRow(actualTime, data, realMemory, memory.realMemory, memory.swapMemory, memory.freedProcesses)
             Output.displayCommandsTableLast()
         elif message == 'P':
             message = memory.loadProcess(values[1],values[0])
-            Output.addCommandRow(time.time()-initialTime, data, "", memory.realMemory, memory.swapMemory, memory.freedProcesses)
+            Output.addCommandRow(actualTime, data, "", memory.realMemory, memory.swapMemory, memory.freedProcesses)
             Output.displayCommandsTableLast()
         elif message == 'L':
             message = memory.freeProcess(values[0])
-            Output.addCommandRow(time.time()-initialTime, data, "", memory.realMemory, memory.swapMemory, memory.freedProcesses)
+            Output.addCommandRow(actualTime, data, "", memory.realMemory, memory.swapMemory, memory.freedProcesses)
             Output.displayCommandsTableLast()
         elif message == 'C':
             message = memory.saveComment(data)
         elif message == 'F':
+            message = memory.endSimulation()
             Output.displayCommandsTable()
             Output.displayFaultsTable()
             Output.resetTableRows()
-            message = memory.endSimulation()
             state = 1
 
         #memory.pri()
@@ -107,6 +109,7 @@ while state<5:
                 else:
                     connection.sendall('Recibido ' + data + processMessage(data))
             else:
+                connection.close()
                 break
     finally:
         # Clean up the connection

@@ -62,7 +62,11 @@ class Process:
         self.commandCount = self.commandCount + 1
 
     def getPerformance(self):
-        return 1 - self.pageFaults/self.commandCount
+        print "P<",self.id,"> Faults<",self.pageFaults,"> Commands<",self.commandCount,">"
+        try:
+            return 1.0 - float(self.pageFaults)/float(self.commandCount)
+        except:
+            return 1.0
 
     def setLinkedPage(self, index, linkedPage):
         self.frames[index].setLinkedPage(linkedPage)
