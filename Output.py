@@ -128,8 +128,11 @@ class Output:
 					if(freeOrEqual == "E"):
 						MList.append("=")
 						tmpMinFreeIndex = 0
+
+					if(freeOrEqual != "F"):
+						freeOrEqual = "F"
+						tmpMinFreeIndex = i					
 					
-					freeOrEqual = "F"
 					if(i == sizeRealList-1):
 						if(i-tmpMinFreeIndex > 1):
 							MList.append("M[" + str(tmpMinFreeIndex) + "-" + str(i-1) + ":L]")
