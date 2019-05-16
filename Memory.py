@@ -59,7 +59,7 @@ class Memory:
 			index = index + 1
 		if self.politic == 'FIFO':
 			for i in range(index,self.realMemoryFrames):
-				if self.realMemory[i].getOcupyNumber() < self.realMemory[index].getOcupyNumber():
+				if self.realMemory[i].getOcupyNumber()>0 and self.realMemory[i].getOcupyNumber() < self.realMemory[index].getOcupyNumber():
 					index = i
 		elif self.politic == 'LIFO':
 			for i in range(index,self.realMemoryFrames):
