@@ -122,7 +122,7 @@ class Memory:
 			self.processesInMemory[processNumber].addCommand()
 			process = self.processesInMemory[processNumber]
 			if address >= process.getSize():
-				return '\nPage Fault'
+				return '\nPage Fault','-'
 			frame = address / process.getPageSize()
 			displacement = address % process.getPageSize()
 			page = process.getFrame(frame)

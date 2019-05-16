@@ -86,7 +86,7 @@ class MessageProcessor:
 	    	return 0,values,'P'
 	    if command[0]=='A':
 	    	if len(command)<4:
-	    		return 0,'\nInsuficientes parametros'
+	    		return 0,values,'\nInsuficientes parametros'
 	    	try:
 		        values.append(int(command[1]))
 	        except ValueError:
@@ -104,7 +104,7 @@ class MessageProcessor:
 	    	return 0,values,'A'
 	    if command[0]=='L':
 	    	if len(command)<2:
-	    		return 0,'\nInsuficientes parametros'
+	    		return 0,values,'\nInsuficientes parametros'
 	    	try:
 	        	values.append(int(command[1]))
 	        except ValueError:
