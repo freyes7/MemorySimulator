@@ -4,8 +4,10 @@ from Process import Process
 import copy
 import operator
 
+#clase para imprimir las tablas con los valor del estado de los procesos y la mamoria
 class Output:
 
+	#inicializacion de las vatiables globales
 	global lastRealList
 	global lastSwapList
 	global commandTableRows
@@ -20,6 +22,7 @@ class Output:
 	lastSwapList = []
 
 	# Headers
+	#se inicializan los encabezados de la tabla
 	@staticmethod
 	def resetTableRows():
 		global commandTableRows
@@ -31,30 +34,35 @@ class Output:
 		lastRealList = []
 		lastSwapList = []
 
+	#se agrega la colmna de fallos de pagina
 	@staticmethod
 	def addFaultRow(process):
 		global faultTableRows
 
-		pid = process.getId()
-		turnaround = process.getTurnaroundTime()
-		pageFaults = process.getPageFaults()
-		swapins = process.getSwapIn()
-		swapouts = process.getSwapOut()
-		rendimiento = str(process.getPerformance())
+		pid = process.getId() #se obtiene el id del proceso
+		turnaround = process.getTurnaroundTime() #se obtiene el calor del turnaround
+		pageFaults = process.getPageFaults() #se obiene la cantidad de fallos de pagina
+		swapins = process.getSwapIn() #se obtienen los
+		swapouts = process.getSwapOut() #se obtienen los 
+		rendimiento = str(process.getPerformance()) #se obtiene el valor del rendimiento
+		#se agregan los valores a la fila
 		faultTableRows.append([pid, turnaround, pageFaults, swapins, swapouts, rendimiento])
 
+	#metodo para agregar un falo a un proceso que no ha terminado
 	@staticmethod
 	def addFaultRowNotEndedProcess(process):
 		global faultTableRows
 
-		pid = process.getId()
-		turnaround = "-"
-		pageFaults = process.getPageFaults()
-		swapins = process.getSwapIn()
-		swapouts = process.getSwapOut()
-		rendimiento = str(process.getPerformance())
+		pid = process.getId() #se obtiene el id del proceso
+		turnaround = "-" #no ha terminado, así que aún no tiene turnaround
+		pageFaults = process.getPageFaults() #se obtienen los fallos de pagina
+		swapins = process.getSwapIn() #se obtienen los
+		swapouts = process.getSwapOut() #se obtienen los
+		rendimiento = str(process.getPerformance()) #se obtiene el valor del rendimiento
+		#se agregan los valores a la fila
 		faultTableRows.append([pid, turnaround, pageFaults, swapins, swapouts, rendimiento])
 
+	#metodo para insertar valores en la fila de comandos
 	@staticmethod
 	def addCommandRow(tiempo, commandName, dirReal, realList, swapList, finished):
 		global lastRealList
@@ -64,20 +72,23 @@ class Output:
 		MList = []
 		SList = []
 
+		#Solo se ejecuta si antes las listas estaban vacias
 		if(len(lastRealList) == 0 and len(lastSwapList) == 0):
 			MList.append("M[" + str(len(realList)) + ":L]")
 			SList.append("S[" + str(len(swapList)) + ":L]")
 			
+			#se repite para cada valor en la lista de 
 			for i in range(len(realList)):
 				lastRealList.append(Page(realList[i].getTypeMemory(), realList[i].getProcess(), realList[i].getLinkedPage()))
 
+			#se repite para cada valor en la lista de 
 			for i in range(len(swapList)):
 				lastSwapList.append(Page(swapList[i].getTypeMemory(), swapList[i].getProcess(), swapList[i].getLinkedPage()))
 			
 			commandTableRows.append([tiempo, commandName, dirReal, ', '.join(MList), ', '.join(SList), ', '.join(finished)])
 			return ""
 
-		
+		#se actualixza el tamaño de las listas
 		sizeRealList = len(realList)
 		sizeSwapList = len(swapList)
 
@@ -86,11 +97,13 @@ class Output:
 		tmpMinFreeIndex = 0
 		freeOrEqual = "" # F | E
 
+		#para todos los que se encuentren en la lista
 		for i in range(sizeRealList):
 			#print "RPL<", realList[i].getProcess() ,"> RPA<", lastRealList[i].getProcess() ,"> | ROL<", realList[i].getOcupyNumber() ,"> RON<", lastRealList[i].getOcupyNumber() ,"> | RLL<", realList[i].getLinkedPage() ,"> RLN<", lastRealList[i].getLinkedPage() ,">"
+			#Si todos los valores coinciden
 			if (realList[i].getProcess() == lastRealList[i].getProcess()) and (realList[i].getOcupyNumber() == lastRealList[i].getOcupyNumber()) and (realList[i].getLinkedPage() == realList[i].getLinkedPage()):
 				# EQUAL
-				
+				#Si esta libre
 				if(freeOrEqual == "F"):
 					if(i-tmpMinFreeIndex > 1):
 						MList.append("M[" + str(tmpMinFreeIndex) + "-" + str(i-1) + ":L]")
@@ -124,15 +137,17 @@ class Output:
 				# FREE
 				else:
 					
-					
+					#si está igual se imprime =
 					if(freeOrEqual == "E"):
 						MList.append("=")
 						tmpMinFreeIndex = 0
 
+					#si no esta libre 
 					if(freeOrEqual != "F"):
 						freeOrEqual = "F"
 						tmpMinFreeIndex = i					
 					
+					#si es el ultimo valor de la lista
 					if(i == sizeRealList-1):
 						if(i-tmpMinFreeIndex > 1):
 							MList.append("M[" + str(tmpMinFreeIndex) + "-" + str(i-1) + ":L]")
@@ -201,19 +216,26 @@ class Output:
 
 		commandTableRows.append([str(tiempo), str(commandName), str(dirReal), ',\n'.join(MList), ',\n'.join(SList), ', '.join(str(tmp1) for tmp1 in finished)])
 
+	#metodo para desplegar la tabla de fallos
 	@staticmethod
 	def displayFaultsTable():
 		global faultTableRows
+		#se ordenan los valores
 		faultTableRows = sorted(faultTableRows, key=operator.itemgetter(0),reverse=True)
+		#se agregan los encabezados de la tabla
 		faultTableRows.append(["proceso","turnaround","# page faults","swapins","swapouts","rendimiento"])
 
+		#se imprime la tabla
 		print tabulate(faultTableRows[::-1],headers="firstrow",tablefmt="fancy_grid"),"\n"
 
+	#metodo para desplegar la tabla final de comandos
 	@staticmethod
 	def displayCommandsTableLast():
 		global commandTableRows
+		#se imprime la tabla
 		print tabulate([["Tiempo","comando","dir. real","M","S","Terminados"],commandTableRows[len(commandTableRows)-1]],headers="firstrow",tablefmt="fancy_grid"),"\n"
 
+	#metodo para desplegar la tabla de comandos
 	@staticmethod
 	def displayCommandsTable():
 		global commandTableRows
